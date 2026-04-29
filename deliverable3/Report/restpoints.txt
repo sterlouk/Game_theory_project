@@ -1,0 +1,119 @@
+
+===== Rest Points for p=0.75, M=4, T=10 =====
+
+Pure: All-M/2  (unstable)
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-1=0.9914, Grim=0.0086  (saddle)
+
+
+===== Rest Points for p=0.6, M=4, T=10 =====
+
+Pure: All-M/2  (stable (ESS))
+Pure: All-1  (unstable)
+Pure: Grim  (stable (ESS))
+Edge: All-M/2=0.9357, Grim=0.0643  (saddle)
+
+
+===== Rest Points for p=0.6, M=4, T=10 =====
+
+Pure: All-M/2  (stable (ESS))
+Pure: All-1  (unstable)
+Pure: Grim  (stable (ESS))
+Edge: All-M/2=0.9357, Grim=0.0643  (saddle)
+
+
+===== Rest Points for p=0.666667, M=4, T=10 =====
+
+Pure: All-M/2  (stable (ESS))
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-M/2=0.9881, Grim=0.0119  (saddle)
+
+
+===== Rest Points for p=0.75, M=4, T=10 =====
+
+Pure: All-M/2  (unstable)
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-1=0.9914, Grim=0.0086  (saddle)
+
+
+===== Rest Points for p=0.9, M=4, T=10 =====
+
+Pure: All-M/2  (unstable)
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-1=0.9759, Grim=0.0241  (saddle)
+
+
+===== Rest Points for p=0.75, M=2, T=10 =====
+
+Pure: All-M/2  (unstable)
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-1=0.9722, Grim=0.0278  (saddle)
+
+
+===== Rest Points for p=0.75, M=4, T=10 =====
+
+Pure: All-M/2  (unstable)
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-1=0.9914, Grim=0.0086  (saddle)
+
+
+===== Rest Points for p=0.75, M=6, T=10 =====
+
+Pure: All-M/2  (stable (ESS))
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-M/2=0.2500, All-1=0.7500  (saddle)
+Edge: All-M/2=0.8571, Grim=0.1429  (saddle)
+Edge: All-1=0.9949, Grim=0.0051  (saddle)
+Interior: All-M/2=0.2479, All-1=0.7457, Grim=0.0064  (unstable)
+
+
+===== Rest Points for p=0.75, M=8, T=10 =====
+
+Pure: All-M/2  (stable (ESS))
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-M/2=0.1250, All-1=0.8750  (saddle)
+Edge: All-M/2=0.7917, Grim=0.2083  (saddle)
+Edge: All-1=0.9964, Grim=0.0036  (saddle)
+Interior: All-M/2=0.1242, All-1=0.8726, Grim=0.0032  (unstable)
+
+
+===== Rest Points for p=0.75, M=4, T=2 =====
+
+Pure: All-M/2  (saddle)
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-M/2=0.8750, Grim=0.1250  (unstable)
+Edge: All-1=0.9500, Grim=0.0500  (saddle)
+
+
+===== Rest Points for p=0.75, M=4, T=5 =====
+
+Pure: All-M/2  (unstable)
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-1=0.9821, Grim=0.0179  (saddle)
+
+
+===== Rest Points for p=0.75, M=4, T=10 =====
+
+Pure: All-M/2  (unstable)
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-1=0.9914, Grim=0.0086  (saddle)
+
+
+===== Rest Points for p=0.75, M=4, T=20 =====
+
+Pure: All-M/2  (unstable)
+Pure: All-1  (stable (ESS))
+Pure: Grim  (stable (ESS))
+Edge: All-1=0.9958, Grim=0.0042  (saddle)
+
