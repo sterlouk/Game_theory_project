@@ -20,10 +20,11 @@ if nargin < 3 || isempty(mode), mode = 'ternary'; end
 
 if strcmpi(mode, 'xy')
     % Feasible region in (x1,x2), with x3 = 1 - x1 - x2 >= 0
+    % Vertex order matches labels: [All-M; All-1; Grim].
     offset_small = 0.02;
     offset_corner = 0.03;
     offset_beyond = 1.02;
-    V = [0, 0; 1, 0; 0, 1];
+    V = [1, 0; 0, 1; 0, 0];
     fill(V([1 2 3 1],1), V([1 2 3 1],2), [0.97 0.97 0.97], ...
          'EdgeColor', col, 'LineWidth', 1.6);
     hold on;
