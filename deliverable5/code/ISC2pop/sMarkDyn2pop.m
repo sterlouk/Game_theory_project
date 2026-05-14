@@ -68,7 +68,8 @@ end
 
 % -----------------------------------------------------------------------
 function [s_new, switched] = mutationStep(s, N)
-% One random exploration step: select one player and mutate to a different strategy.
+% One random exploration step: select a source strategy proportional to frequency
+% (equivalently, a uniformly random player) and mutate to a different strategy.
 switched = false;
 x = s / N;
 r  = rand();

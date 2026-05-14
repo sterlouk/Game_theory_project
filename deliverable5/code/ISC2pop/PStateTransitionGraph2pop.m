@@ -43,11 +43,8 @@ thresh = 1e-3;
 
 for k = 1:numel(Is)
     if Is(k)==Js(k) || Vs(k) < thresh, continue; end
-    % Recover (i1,i2) from linear index idx=(i1-1)*n2+i2
-    i1_from = ceil(Is(k)/n2);
-    i2_from = mod(Is(k)-1,n2)+1;
-    i1_to   = ceil(Js(k)/n2);
-    i2_to   = mod(Js(k)-1,n2)+1;
+    [i1_from, i2_from] = decodeIdx(Is(k), n2);
+    [i1_to,   i2_to]   = decodeIdx(Js(k), n2);
 
     lw = max(0.3, Vs(k)*4);
     col = [0.2 0.4 0.9];
@@ -91,4 +88,10 @@ dx = to(1)-from(1); dy = to(2)-from(2);
 if norm([dx dy]) < 1e-6, return; end
 quiver(from(1),from(2),dx*0.85,dy*0.85,0, ...
        'Color',col,'LineWidth',lw,'MaxHeadSize',0.5,'AutoScale','off');
+end
+
+function [i1, i2] = decodeIdx(idx, n2)
+% Inverse of idx = (i1-1)*n2 + i2.
+i1 = ceil(idx/n2);
+i2 = mod(idx-1,n2) + 1;
 end
