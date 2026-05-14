@@ -78,7 +78,7 @@ if isempty(m1)
     s_new = s; return;
 end
 targets = setdiff(1:3, m1);
-m2 = targets(randi(2));
+m2 = targets(randi(numel(targets)));
 s_new = s;
 s_new(m1) = s_new(m1) - 1;
 s_new(m2) = s_new(m2) + 1;

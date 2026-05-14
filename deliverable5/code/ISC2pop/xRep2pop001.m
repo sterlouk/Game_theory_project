@@ -22,8 +22,8 @@ rng(42);
 function z = randSimplex3()
     r = sort(rand(1,2));
     zRaw = [r(1), r(2)-r(1), 1-r(2)];
-    lambda = 0.55; % interior-bias knob: lambda=0 gives center, lambda=1 gives raw sample (more edge-heavy)
-    z = lambda*zRaw + (1-lambda)*[1/3, 1/3, 1/3];
+    interiorBias = 0.55; % interior-bias knob: 0 gives center, 1 gives raw sample (more edge-heavy)
+    z = interiorBias*zRaw + (1-interiorBias)*[1/3, 1/3, 1/3];
 end
 
 % Generate symmetric random initial conditions (same IC for both populations)
