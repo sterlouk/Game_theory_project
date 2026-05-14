@@ -20,6 +20,9 @@ if nargin < 3 || isempty(mode), mode = 'ternary'; end
 
 if strcmpi(mode, 'xy')
     % Feasible region in (x1,x2), with x3 = 1 - x1 - x2 >= 0
+    offset_small = 0.02;
+    offset_corner = 0.03;
+    offset_beyond = 1.02;
     V = [0, 0; 1, 0; 0, 1];
     fill(V([1 2 3 1],1), V([1 2 3 1],2), [0.97 0.97 0.97], ...
          'EdgeColor', col, 'LineWidth', 1.6);
@@ -30,11 +33,11 @@ if strcmpi(mode, 'xy')
         plot([0 frac], [1-frac 1], '-', 'Color',[0.83 0.83 0.83], 'LineWidth',0.5);
     end
     plot(V(:,1), V(:,2), 'k.', 'MarkerSize', 14);
-    text(1.02, -0.02, labels{1}, 'Interpreter','latex', 'FontSize',10, ...
+    text(offset_beyond, -offset_small, labels{1}, 'Interpreter','latex', 'FontSize',10, ...
          'HorizontalAlignment','left', 'VerticalAlignment','top');
-    text(-0.02, 1.02, labels{2}, 'Interpreter','latex', 'FontSize',10, ...
+    text(-offset_small, offset_beyond, labels{2}, 'Interpreter','latex', 'FontSize',10, ...
          'HorizontalAlignment','right', 'VerticalAlignment','bottom');
-    text(-0.03, -0.03, labels{3}, 'Interpreter','latex', 'FontSize',10, ...
+    text(-offset_corner, -offset_corner, labels{3}, 'Interpreter','latex', 'FontSize',10, ...
          'HorizontalAlignment','right', 'VerticalAlignment','top');
     xlabel('$x_1$','Interpreter','latex');
     ylabel('$x_2$','Interpreter','latex');

@@ -58,7 +58,8 @@ for i = 1:K
     plot(tx2(end),ty2(end),'s','Color',cmap(i,:),'MarkerFaceColor',cmap(i,:),'MarkerSize',7);
 end
 
-% Mark pure vertices in both panels (x1,x2): e1=(1,0), e2=(0,1), e3=(0,0)
+% Mark pure vertices in both panels in the same order as labs:
+% [All-M; All-1; Grim] -> [(1,0); (0,1); (0,0)]
 V2d = [1,0;0,1;0,0];
 for pop = 1:2
     subplot(1,2,pop); hold on;

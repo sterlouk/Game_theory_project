@@ -74,7 +74,7 @@ x = s / N;
 r  = rand();
 cs = cumsum(x);
 m1 = find(cs >= r, 1, 'first');
-if isempty(m1) || s(m1)==0
+if isempty(m1)
     s_new = s; return;
 end
 targets = setdiff(1:3, m1);

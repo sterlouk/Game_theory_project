@@ -12,7 +12,8 @@ function [t, X, Y] = xRepDyn2pop(C, x0, y0, tspan, dynOpts)
 %               .beta     (default 1)
 %               .RelTol   (default 1e-9)
 %               .AbsTol   (default 1e-11)
-%               .eventTol (if provided, stop when min(z)+eventTol=0)
+%               .eventTol (if provided as a small positive value, stop when
+%                          any component drops below -eventTol)
 %
 %   Returns:
 %     t  - (nT x 1) time vector
