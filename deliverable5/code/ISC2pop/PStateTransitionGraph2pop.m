@@ -4,9 +4,9 @@ function PStateTransitionGraph2pop(C, N1, N2, titleStr)
 %   PStateTransitionGraph2pop(C, N1, N2, titleStr)
 %
 %   Because the full state space (s,t) is (n1*n2) dimensional, we project
-%   each state onto 2-D using pop-1 (s1,s2) and pop-2 (t1,t2) coordinates
+%   each state onto 2-D using pop-1 (s1/N1,s2/N1) and pop-2 (t1/N2,t2/N2)
 %   and draw arrows for non-zero transitions.
-%   Two subplots: left = pop-1 simplex projection, right = pop-2 simplex.
+%   Two subplots: left = pop-1 (x1,x2), right = pop-2 (y1,y2).
 %
 %   Arguments:
 %     C        - 3x3 payoff matrix
@@ -19,21 +19,20 @@ if nargin < 4, titleStr = 'State Transition Graph (2-pop)'; end
 n1 = size(states1,1);
 n2 = size(states2,1);
 nS = n1*n2;
-linIdx = @(i1,i2) (i1-1)*n2 + i2;
 
 % --- Identify absorbing states -----------------------------------------
 absIdx = find(abs(diag(P)-1) < 1e-8);
 
-% 2-D ternary coordinates for each population state
-[tx1,ty1] = ternary2cart(states1/N1);
-[tx2,ty2] = ternary2cart(states2/N2);
+% 2-D Cartesian coordinates (third strategy implied by 1-x1-x2)
+tx1 = states1(:,1) / N1;  ty1 = states1(:,2) / N1;
+tx2 = states2(:,1) / N2;  ty2 = states2(:,2) / N2;
 
 figure('Units','centimeters','Position',[2 2 28 13]);
 labs = {'All-$M$','All-$1$','Grim'};
 
 for panel = 1:2
     subplot(1,2,panel); hold on;
-    drawSimplex(labs);
+    drawSimplex(labs, [0.3 0.3 0.3], 'xy');
     title([titleStr, ' — Pop ', num2str(panel)], ...
           'FontSize',10,'Interpreter','latex');
 end
@@ -44,7 +43,6 @@ thresh = 1e-3;
 
 for k = 1:numel(Is)
     if Is(k)==Js(k) || Vs(k) < thresh, continue; end
-    si = mod(Is(k)-1, n2) + 1;   % state-2 index of source
     % Recover (i1,i2) from linear index
     i1_from = ceil(Is(k)/n2);
     i2_from = mod(Is(k)-1,n2)+1;

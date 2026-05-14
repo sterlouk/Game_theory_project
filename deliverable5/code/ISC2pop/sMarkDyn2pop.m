@@ -1,7 +1,7 @@
-function [Xhist, Yhist] = sMarkDyn2pop(C, N1, N2, s0, t0, nSteps)
+function [Xhist, Yhist] = sMarkDyn2pop(C, N1, N2, s0, t0, nSteps, mu)
 % SMARKDYN2POP  Simulate the two-population ISC Markov chain via direct sampling.
 %
-%   [Xhist, Yhist] = sMarkDyn2pop(C, N1, N2, s0, t0, nSteps)
+%   [Xhist, Yhist] = sMarkDyn2pop(C, N1, N2, s0, t0, nSteps, mu)
 %
 %   TWO-POPULATION setup:
 %     - Population 1: N1 players with state s=(s1,s2,s3), sum=N1.
@@ -22,10 +22,14 @@ function [Xhist, Yhist] = sMarkDyn2pop(C, N1, N2, s0, t0, nSteps)
 %     s0     - 1x3 initial state for pop 1  (must sum to N1)
 %     t0     - 1x3 initial state for pop 2  (must sum to N2)
 %     nSteps - number of Markov steps
+%     mu     - optional mutation/exploration rate per update (default 0)
 %
 %   Returns:
 %     Xhist  - (nSteps+1 x 3) pop-1 frequency history
 %     Yhist  - (nSteps+1 x 3) pop-2 frequency history
+
+if nargin < 7 || isempty(mu), mu = 0; end
+mu = max(0, min(1, mu));
 
 s = s0(:)';  assert(sum(s)==N1 && numel(s)==3);
 t = t0(:)';  assert(sum(t)==N2 && numel(t)==3);
@@ -43,14 +47,42 @@ for step = 1:nSteps
     % --- choose which population updates (50/50) ----------------------
     if rand() < 0.5
         % Update pop 1
-        [s, ~] = ppiStep(s, q1, N1);
+        [s, ~] = ppiOrMutationStep(s, q1, N1, mu);
     else
         % Update pop 2
-        [t, ~] = ppiStep(t, q2, N2);
+        [t, ~] = ppiOrMutationStep(t, q2, N2, mu);
     end
 
     Xhist(step+1,:) = s/N1;
     Yhist(step+1,:) = t/N2;
+end
+
+% -----------------------------------------------------------------------
+function [s_new, switched] = ppiOrMutationStep(s, q, N, mu)
+if rand() < mu
+    [s_new, switched] = mutationStep(s, N);
+else
+    [s_new, switched] = ppiStep(s, q, N);
+end
+end
+
+% -----------------------------------------------------------------------
+function [s_new, switched] = mutationStep(s, N)
+% One random exploration step: select one player and mutate to a different strategy.
+switched = false;
+x = s / N;
+r  = rand();
+cs = cumsum(x);
+m1 = find(cs >= r, 1, 'first');
+if isempty(m1) || s(m1)==0
+    s_new = s; return;
+end
+targets = setdiff(1:3, m1);
+m2 = targets(randi(2));
+s_new = s;
+s_new(m1) = s_new(m1) - 1;
+s_new(m2) = s_new(m2) + 1;
+switched = true;
 end
 end
 

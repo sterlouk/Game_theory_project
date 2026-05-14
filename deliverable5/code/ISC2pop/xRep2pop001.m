@@ -14,22 +14,25 @@ if ~exist('figures','dir'), mkdir('figures'); end
 
 M = 4;  T = 10;
 nIC = 20;   % number of random initial conditions
+beta = 0.25;  % selection intensity (slower visible evolution)
 rng(42);
 
 % ---------------------------------------------------------------
-% Helper: random initial condition pair on 3-simplex
-randIC = @() [rand(1,2), 0];  % will be normalised inside xRepDyn2pop
+% Helper: random initial condition on simplex, biased toward interior
 function z = randSimplex3()
     r = sort(rand(1,2));
-    z = [r(1), r(2)-r(1), 1-r(2)];
+    zRaw = [r(1), r(2)-r(1), 1-r(2)];
+    lambda = 0.55;
+    z = lambda*zRaw + (1-lambda)*[1/3, 1/3, 1/3];
 end
 
-% Generate random initial conditions
-x0s = zeros(nIC,3);  y0s = zeros(nIC,3);
+% Generate symmetric random initial conditions (same IC for both populations)
+x0s = zeros(nIC,3);
 for k=1:nIC
     x0s(k,:) = randSimplex3();
-    y0s(k,:) = randSimplex3();
 end
+y0s = x0s;
+dynOpts = struct('beta', beta);
 
 % =============================================================
 % Figures 2-3: Phase portraits for p=3/4 and p=3/5
@@ -38,7 +41,7 @@ for p = [3/4, 3/5]
     C = computeC(M, T, p);
     pStr = strrep(num2str(p,'%.2f'),'.','');
     
-    PhasePlot2pop(C, x0s, y0s, [0 80], sprintf('$p = %.2f$', p));
+    PhasePlot2pop(C, x0s, y0s, [0 35], sprintf('$p = %.2f$', p), dynOpts);
     fname = sprintf('figures/rep_phase_p%s', pStr);
     saveas(gcf, [fname, '.png']);
     fprintf('Saved %s.png\n', fname);
@@ -49,7 +52,7 @@ end
 % =============================================================
 cols  = lines(3);
 names = {'All-$M$','All-$1$','Grim'};
-tspan = linspace(0,80,500);
+tspan = unique([linspace(0,10,350), linspace(10,80,220)]);
 
 for p = [3/4, 3/5]
     C    = computeC(M, T, p);
@@ -59,7 +62,7 @@ for p = [3/4, 3/5]
     x0 = [0.6, 0.2, 0.2];
     y0 = [0.1, 0.1, 0.8];
 
-    [t, X, Y] = xRepDyn2pop(C, x0', y0', tspan);
+    [t, X, Y] = xRepDyn2pop(C, x0', y0', tspan, dynOpts);
 
     figure('Units','centimeters','Position',[2 2 26 10]);
     for pop = 1:2
@@ -89,7 +92,7 @@ figure('Units','centimeters','Position',[2 2 28 18]);
 for pi_ = 1:numel(pVals)
     p  = pVals(pi_);
     C  = computeC(M, T, p);
-    [t, X, Y] = xRepDyn2pop(C, x0', y0', tspan);
+    [t, X, Y] = xRepDyn2pop(C, x0', y0', tspan, dynOpts);
     for m = 1:3
         % Pop 1
         subplot(3,4, (m-1)*4+pi_);
@@ -117,7 +120,7 @@ figure('Units','centimeters','Position',[2 2 28 18]);
 for mi = 1:numel(MVals)
     M_ = MVals(mi);
     C  = computeC(M_, T, p);
-    [t, X, Y] = xRepDyn2pop(C, x0', y0', tspan);
+    [t, X, Y] = xRepDyn2pop(C, x0', y0', tspan, dynOpts);
     for m = 1:3
         subplot(3,4,(m-1)*4+mi);
         plot(t,X(:,m),'-','Color',cols(m,:),'LineWidth',1.4); hold on;
@@ -140,7 +143,7 @@ figure('Units','centimeters','Position',[2 2 28 18]);
 for ti = 1:numel(TVals)
     T_ = TVals(ti);
     C  = computeC(M, T_, p);
-    [t, X, Y] = xRepDyn2pop(C, x0', y0', tspan);
+    [t, X, Y] = xRepDyn2pop(C, x0', y0', tspan, dynOpts);
     for m = 1:3
         subplot(3,4,(m-1)*4+ti);
         plot(t,X(:,m),'-','Color',cols(m,:),'LineWidth',1.4); hold on;
@@ -170,7 +173,7 @@ for p = [3/4, 3/5]
         ic = ic_list{k};
         ic = ic/sum(ic);
         % Symmetric IC: same for both populations
-        [t,X,Y] = xRepDyn2pop(C, ic', ic', tspan);
+        [t,X,Y] = xRepDyn2pop(C, ic', ic', tspan, dynOpts);
         for m=1:3
             subplot(3,8,(m-1)*8+k);
             plot(t,X(:,m),'-','Color',cols(m,:),'LineWidth',1.2); hold on;

@@ -450,10 +450,12 @@ $\mathcal{F}$.
 
 \subsection{Phase Portraits}
 
-We visualise the dynamics on two side-by-side ternary simplices: the left panel
-shows Population~1's trajectory and the right panel shows Population~2's
-trajectory for the same integrated orbit.  Both populations start from the same
-initial condition and are integrated jointly under~\eqref{eq:rep1}--\eqref{eq:rep2}.
+We visualise the dynamics on two side-by-side $(x_1,x_2)$ feasible-region plots:
+the left panel shows Population~1's trajectory and the right panel shows
+Population~2's trajectory for the same integrated orbit.  The third coordinate
+is implied by $x_3=1-x_1-x_2$ (or $y_3=1-y_1-y_2$).  Both populations start
+from the same initial condition and are integrated jointly under
+~\eqref{eq:rep1}--\eqref{eq:rep2}.
 
 \begin{figure}[H]
   \centering
@@ -471,9 +473,10 @@ initial condition and are integrated jointly under~\eqref{eq:rep1}--\eqref{eq:re
     \label{fig:phase_p060}
   \end{subfigure}
   \caption{Phase portraits of~\eqref{eq:rep1}--\eqref{eq:rep2}, $M=4$, $T=10$.
-           \emph{Left}: Population~1 simplex (vertices: All-$M$ bottom-left,
-           All-$1$ bottom-right, Grim top).  \emph{Right}: Population~2 simplex
-           (same layout).  Circle = initial condition; square = final state.}
+           \emph{Left}: Population~1 in $(x_1,x_2)$ coordinates.
+           \emph{Right}: Population~2 in $(y_1,y_2)$ coordinates.
+           Feasible region: $x_1\ge 0$, $x_2\ge 0$, $x_1+x_2\le 1$
+           (analogously for $y$).  Circle = initial condition; square = final state.}
   \label{fig:phase_both}
 \end{figure}
 
@@ -679,8 +682,8 @@ cooperation along the All-$M$--Grim spectrum.
     \label{fig:sg_p060}
   \end{subfigure}
   \caption{Two-population Markov state transition graphs, $M=4$, $T=10$, $N_1=N_2=5$.
-           \emph{Left of each subfigure}: Population-1 simplex projection.
-           \emph{Right}: Population-2 simplex projection.
+           \emph{Left of each subfigure}: Population-1 $(s_1/N_1,s_2/N_1)$ projection.
+           \emph{Right}: Population-2 $(t_1/N_2,t_2/N_2)$ projection.
            Blue dots: states on absorbing face~$\mathcal{A}$ or pure All-$1$.
            Red dots: transient states.
            Arrow width $\propto$ transition probability.}
@@ -956,8 +959,8 @@ Supporting files:
   \item \texttt{repDyn2pop.m}: ODE RHS for equations~\eqref{eq:rep1}--\eqref{eq:rep2}.
   \item \texttt{xRepDyn2pop.m}: wrapper calling \texttt{ode45}.
   \item \texttt{PhasePlot2pop.m}: two-simplex phase portrait.
-  \item \texttt{ternary2cart.m}, \texttt{drawSimplex.m}: ternary coordinate
-        utilities.
+  \item \texttt{drawSimplex.m}: feasible-region plotting utility in
+        $(x_1,x_2)$ coordinates.
   \item \texttt{sMarkDyn2pop.m}: Monte Carlo Markov simulation.
   \item \texttt{buildMarkovP2pop.m}: exact transition matrix.
   \item \texttt{PStateTransitionGraph2pop.m}: state transition graph.

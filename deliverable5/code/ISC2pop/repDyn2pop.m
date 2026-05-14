@@ -1,7 +1,7 @@
-function dz = repDyn2pop(~, z, C)
+function dz = repDyn2pop(~, z, C, beta)
 % REPDYN2POP  Two-population replicator dynamics ODE right-hand side.
 %
-%   dz = repDyn2pop(t, z, C)
+%   dz = repDyn2pop(t, z, C, beta)
 %
 %   Implements equations (B.1)-(B.2) from Lazaridis & Kehagias (2026):
 %
@@ -19,6 +19,9 @@ function dz = repDyn2pop(~, z, C)
 %     z  - 6x1 state: first 3 entries = pop-1 frequencies,
 %                      last  3 entries = pop-2 frequencies
 %     C  - 3x3 ISC payoff matrix
+%     beta - selection intensity scaling (default 1)
+
+if nargin < 4 || isempty(beta), beta = 1; end
 
 % --- unpack & project onto simplex -----------------------------------
 x = z(1:3);   y = z(4:6);
@@ -30,12 +33,12 @@ xCy  = x' * C * y;          % scalar
 
 % --- (B.1): pop-1 ---------------------------------------------------
 Cy   = C * y;                % 3x1: fitness of each pop-1 strategy vs pop-2
-dxdt = x .* (Cy  - xCy);
+dxdt = beta * x .* (Cy  - xCy);
 
 % --- (B.2): pop-2 ---------------------------------------------------
 %   (x'*C)_m = m-th component => this is (C'*x)
 CtX  = C' * x;               % 3x1: fitness of each pop-2 strategy vs pop-1
-dydt = y .* (CtX - xCy);
+dydt = beta * y .* (CtX - xCy);
 
 dz = [dxdt; dydt];
 end

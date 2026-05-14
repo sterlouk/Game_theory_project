@@ -16,6 +16,7 @@ clear; close all;
 if ~exist('figures','dir'), mkdir('figures'); end
 
 M=4; T=10; N1=10; N2=10; nSteps=5000;
+mu = 1e-3;  % small exploration to avoid immediate flat absorption in time series
 cols  = lines(3);
 names = {'All-$M$','All-$1$','Grim'};
 rng(7);
@@ -35,8 +36,8 @@ end
 % =============================================================
 % Helper: run simulation and plot time series (both populations)
 % =============================================================
-function plotMarkTS(C, N1, N2, s0, t0, nSteps, cols, names, ttl, fname)
-    [Xh, Yh] = sMarkDyn2pop(C, N1, N2, s0, t0, nSteps);
+function plotMarkTS(C, N1, N2, s0, t0, nSteps, mu, cols, names, ttl, fname)
+    [Xh, Yh] = sMarkDyn2pop(C, N1, N2, s0, t0, nSteps, mu);
     figure('Units','centimeters','Position',[2 2 26 10]);
     for pop = 1:2
         subplot(1,2,pop);
@@ -60,7 +61,7 @@ s0 = [3 4 3]; t0 = [4 3 3];
 for p = [3/4, 3/5]
     C    = computeC(M,T,p);
     pStr = strrep(num2str(p,'%.2f'),'.','');
-    plotMarkTS(C,N1,N2,s0,t0,nSteps,cols,names,...
+    plotMarkTS(C,N1,N2,s0,t0,nSteps,mu,cols,names,...
                sprintf('$p=%.2f$',p),...
                sprintf('figures/mark_timeseries_p%s',pStr));
     fprintf('Saved mark_timeseries_p%s.png\n',pStr);
@@ -73,7 +74,7 @@ pVals = [3/5, 2/3, 3/4, 9/10];
 figure('Units','centimeters','Position',[2 2 28 18]);
 for pi_=1:numel(pVals)
     p=pVals(pi_); C=computeC(M,T,p);
-    [Xh,Yh]=sMarkDyn2pop(C,N1,N2,s0,t0,nSteps);
+    [Xh,Yh]=sMarkDyn2pop(C,N1,N2,s0,t0,nSteps,mu);
     for m=1:3
         subplot(3,4,(m-1)*4+pi_);
         plot(Xh(:,m),'-','Color',cols(m,:),'LineWidth',1.2); hold on;
@@ -95,7 +96,7 @@ p=3/4; MVals=[2 4 6 8];
 figure('Units','centimeters','Position',[2 2 28 18]);
 for mi=1:numel(MVals)
     M_=MVals(mi); C=computeC(M_,T,p);
-    [Xh,Yh]=sMarkDyn2pop(C,N1,N2,s0,t0,nSteps);
+    [Xh,Yh]=sMarkDyn2pop(C,N1,N2,s0,t0,nSteps,mu);
     for m=1:3
         subplot(3,4,(m-1)*4+mi);
         plot(Xh(:,m),'-','Color',cols(m,:),'LineWidth',1.2); hold on;
@@ -116,7 +117,7 @@ M=4; TVals=[2 5 10 20];
 figure('Units','centimeters','Position',[2 2 28 18]);
 for ti=1:numel(TVals)
     T_=TVals(ti); C=computeC(M,T_,p);
-    [Xh,Yh]=sMarkDyn2pop(C,N1,N2,s0,t0,nSteps);
+    [Xh,Yh]=sMarkDyn2pop(C,N1,N2,s0,t0,nSteps,mu);
     for m=1:3
         subplot(3,4,(m-1)*4+ti);
         plot(Xh(:,m),'-','Color',cols(m,:),'LineWidth',1.2); hold on;
@@ -140,7 +141,7 @@ for ni=1:numel(NVals)
     s0i=round(Ni*[0.3 0.4 0.3]); s0i(3)=Ni-s0i(1)-s0i(2);
     t0i=round(Ni*[0.4 0.3 0.3]); t0i(3)=Ni-t0i(1)-t0i(2);
     C=computeC(M,T,p);
-    [Xh,Yh]=sMarkDyn2pop(C,Ni,Ni,s0i,t0i,nSteps);
+    [Xh,Yh]=sMarkDyn2pop(C,Ni,Ni,s0i,t0i,nSteps,mu);
     for m=1:3
         subplot(3,4,(m-1)*4+ni);
         plot(Xh(:,m),'-','Color',cols(m,:),'LineWidth',1.2); hold on;
@@ -167,7 +168,7 @@ for p=[3/4,3/5]
     for ki=1:nIC2
         ic=ic_list{ki}; ic=round(ic/sum(ic)*N1);
         ic(3)=N1-ic(1)-ic(2);
-        [Xh,Yh]=sMarkDyn2pop(C,N1,N2,ic,ic,nSteps);
+        [Xh,Yh]=sMarkDyn2pop(C,N1,N2,ic,ic,nSteps,mu);
         for m=1:3
             subplot(3,nIC2,(m-1)*nIC2+ki);
             plot(Xh(:,m),'-','Color',cols(m,:),'LineWidth',1.1); hold on;
