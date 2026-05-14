@@ -60,7 +60,9 @@ end
 
 % Mark pure vertices in both panels in the same order as labs:
 % [All-M; All-1; Grim] -> [(1,0); (0,1); (0,0)]
-V2d = [1,0;0,1;0,0];
+V2d = [1,0; ... % All-M
+       0,1; ... % All-1
+       0,0];    % Grim
 for pop = 1:2
     subplot(1,2,pop); hold on;
     plot(V2d(:,1),V2d(:,2),'^k','MarkerFaceColor','k','MarkerSize',8,'LineWidth',1.2);

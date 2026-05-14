@@ -43,7 +43,7 @@ thresh = 1e-3;
 
 for k = 1:numel(Is)
     if Is(k)==Js(k) || Vs(k) < thresh, continue; end
-    % Recover (i1,i2) from linear index
+    % Recover (i1,i2) from linear index idx=(i1-1)*n2+i2
     i1_from = ceil(Is(k)/n2);
     i2_from = mod(Is(k)-1,n2)+1;
     i1_to   = ceil(Js(k)/n2);

@@ -23,10 +23,11 @@ function [t, X, Y] = xRepDyn2pop(C, x0, y0, tspan, dynOpts)
 if nargin < 4 || isempty(tspan), tspan = [0 80]; end
 if nargin < 5 || isempty(dynOpts), dynOpts = struct(); end
 
-beta = getOr(dynOpts, 'beta', 1);
-relTol = getOr(dynOpts, 'RelTol', 1e-9);
-absTol = getOr(dynOpts, 'AbsTol', 1e-11);
-eventTol = getOr(dynOpts, 'eventTol', []);
+beta = 1; relTol = 1e-9; absTol = 1e-11; eventTol = [];
+if isfield(dynOpts, 'beta'),     beta = dynOpts.beta; end
+if isfield(dynOpts, 'RelTol'),   relTol = dynOpts.RelTol; end
+if isfield(dynOpts, 'AbsTol'),   absTol = dynOpts.AbsTol; end
+if isfield(dynOpts, 'eventTol'), eventTol = dynOpts.eventTol; end
 
 x0 = max(x0(:),0);  x0 = x0/sum(x0);
 y0 = max(y0(:),0);  y0 = y0/sum(y0);
@@ -53,12 +54,4 @@ function [val, ist, dir] = simplexEvent(~, z, tol)
 val = min(z) + tol;
 ist = 1;
 dir = -1;
-end
-
-function v = getOr(s, fn, defaultV)
-if isfield(s, fn)
-    v = s.(fn);
-else
-    v = defaultV;
-end
 end
